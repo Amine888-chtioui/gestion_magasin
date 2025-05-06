@@ -1,4 +1,5 @@
 <?php
+// File: app/Http/Requests/StoreMachineRequest.php
 
 namespace App\Http\Requests;
 
@@ -11,7 +12,7 @@ class StoreMachineRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true; // Adjust based on your authorization logic
     }
 
     /**
@@ -22,7 +23,30 @@ class StoreMachineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'model' => 'required|string|max:255',
+            'sap_number' => 'nullable|string|max:255|unique:machines,sap_number',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'company' => 'required|string|max:255',
+            'drawings' => 'nullable|array',
+            'drawings.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'drawing_types' => 'nullable|array',
+            'drawing_types.*' => 'string|in:exploded,assembly,schematic',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     */
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Machine name is required.',
+            'model.required' => 'Machine model is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.max' => 'The image may not be greater than 2MB.',
+            'drawings.*.max' => 'Each drawing may not be greater than 5MB.',
         ];
     }
 }
