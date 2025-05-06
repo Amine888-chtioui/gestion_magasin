@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DrawingController;
+use App\Http\Controllers\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
